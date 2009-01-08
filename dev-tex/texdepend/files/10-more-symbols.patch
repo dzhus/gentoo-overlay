@@ -1,0 +1,20 @@
+--- texdepend	2008-03-02 19:24:06.000000000 +0300
++++ texdepend.new	2008-03-02 19:23:58.000000000 +0300
+@@ -208,7 +208,7 @@
+ 	   }
+     }
+ 
+-    if (m#\\(input|include)\b\{?([/\w\d.]+)#) {
++    if (m#\\(input|include)\b\{?([\,_\-\?/\w\d.]+)#) {
+        $p = $2;
+       $p .= '.tex' unless $p =~ /\.tex$/;
+ 		if ($opt_expand) {
+@@ -224,6 +224,6 @@
+          }
+        }
+ 
+-    elsif (m#($include_graphics).*\{([/\w\d.]+)\}#) {
++    elsif (m#($include_graphics).*\{([\,_\-\?/\w\d.]+)\}#) {
+        $p = $2;
+       $p .= '.eps' unless $p =~ /\.\w+$/;
+       push (@figs, $p);

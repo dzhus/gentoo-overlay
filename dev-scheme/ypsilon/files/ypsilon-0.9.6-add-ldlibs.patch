@@ -1,0 +1,21 @@
+--- ypsilon-0.9.6/Makefile	2008-08-01 05:39:41.000000000 +0400
++++ ypsilon-0.9.6-p1/Makefile	2008-08-15 23:32:43.000000000 +0400
+@@ -32,7 +32,8 @@
+     CXXFLAGS += -m32 -march=native
+   endif
+   ASFLAGS = --32
+-  LDFLAGS = -m32 -lpthread -ldl
++  LDFLAGS += -m32
++  LDLIBS = -lpthread -ldl
+   SRCS += ffi_stub_linux.s
+ endif
+ 
+@@ -51,7 +52,7 @@
+ 	@mkdir -p -m755 $(HOME)/.ypsilon
+ 
+ $(PROG): $(OBJS)
+-	$(CXX) $(LDFLAGS) -o $@ $^
++	$(CXX) $(LDFLAGS) $(LDLIBS) -o $@ $^
+ 
+ # VM1.s:
+ #	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -fno-reorder-blocks -fno-crossjumping -fverbose-asm -S src/VM1.cpp
