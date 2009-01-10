@@ -11,15 +11,18 @@ LICENSE="GPL-3"
 
 SLOT="0"
 KEYWORDS="~x86"
-IUSE="test"
+IUSE="test examples"
 
 DEPEND="dev-python/setuptools
-	test? ( dev-python/PyQrcodec dev-python/nose )"
+	test? ( dev-python/nose dev-python/PyQrcodec )"
 RDEPEND=""
 
 src_install () {
 	distutils_src_install
-	dodoc examples/*
+	if use examples ; then
+		insinto /usr/share/doc/${PF}/examples
+		doins examples/* || die "Failed to install examples"
+	fi
 }
 
 src_test () {
