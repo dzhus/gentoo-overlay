@@ -24,5 +24,5 @@ src_install () {
 
 src_test () {
 	einfo "Running nosetests"
-	nosetests -v || die "tests failed"
+	PYTHONPATH=. "${python}" setup.py nosetests -v || die "Tests failed"
 }
