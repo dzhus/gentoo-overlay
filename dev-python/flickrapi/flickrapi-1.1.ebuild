@@ -29,5 +29,5 @@ src_compile() {
 
 src_test() {
 	einfo "Running nosetests"
-	nosetests || die "tests failed"
+	PYTHON=. "${python}" setup.py nosetests -v || die "Tests failed"
 }
