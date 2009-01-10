@@ -9,7 +9,15 @@ HOMEPAGE="http://code.google.com/p/pympler/"
 LICENSE="Apache-2.0"
 
 SLOT="0"
-IUSE=""
+KEYWORDS="~x86"
+IUSE="test"
+
+DEPEND="dev-python/setuptools"
+RDEPEND=""
 
 ESVN_REPO_URI="http://pympler.googlecode.com/svn/trunk/"
 ESVN_PROJECT="pympler-read-only"
+
+src_test() {
+	PYTHONPATH=. "${python}" setup.py test || die "Tests failed"
+}
