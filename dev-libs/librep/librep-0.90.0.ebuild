@@ -10,7 +10,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="~x86 ~ppc ~ia64"
 IUSE="emacs readline"
 
 RDEPEND=">=sys-libs/gdbm-1.8.0
@@ -23,12 +23,23 @@ DEPEND="${RDEPEND}
 	sys-apps/texinfo"
 
 src_unpack() {
-	unpack ${P}.tar.bz2
+	unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}"/${P}-disable-elisp.patch
+	eautoreconf
+	elibtoolize || die "elibtoolize failed"
+	epunt_cxx
 }
 
 src_compile() {
+	local myconf="$(use_with readline)"
+	use ppc && myconf="${myconf} --with-stack-direction=1"
+
+	# It seems that stack-direction=-1 for gcc-3.x and 1 for gcc-4.x on ia64
+	if use ia64 && [[ $(gcc-major-version) -ge 4 ]]; then
+		myconf="${myconf} --with-stack-direction=1"
+	fi
+
 	econf \
 		--libexecdir=/usr/$(get_libdir) \
 		--with-ffi \
