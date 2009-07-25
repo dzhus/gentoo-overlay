@@ -15,7 +15,7 @@ IUSE="doc"
 
 S="${WORKDIR}/Markdown-${PV}"
 
-DEPEND="dev-python/setuptools"
+DEPEND=""
 RDEPEND=""
 
 NEED_PYTHON=2.5
