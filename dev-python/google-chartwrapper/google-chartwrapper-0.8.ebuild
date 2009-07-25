@@ -7,8 +7,10 @@ inherit distutils
 MY_PN="GChartWrapper"
 DESCRIPTION="Python Google Chart Wrapper."
 HOMEPAGE="http://code.google.com/p/google-chartwrapper/"
-SRC_URI="http://google-chartwrapper.googlecode.com/files/${MY_PN}-${PV}.tar.gz"
 LICENSE="LGPL"
+
+ESVN_REPO_URI="http://google-chartwrapper.googlecode.com/svn/trunk/"
+ESVN_PROJECT="google-chartwrapper-read-only"
 
 SLOT="0"
 KEYWORDS="~x86"
