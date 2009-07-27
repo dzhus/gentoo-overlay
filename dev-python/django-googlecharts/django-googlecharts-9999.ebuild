@@ -14,6 +14,9 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="examples"
 
+DEPEND=""
+RDEPEND="dev-python/django"
+
 INSTO="$(python_get_sitedir)/${PN}"
 
 src_install() {

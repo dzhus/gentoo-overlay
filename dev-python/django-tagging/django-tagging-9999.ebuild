@@ -15,4 +15,7 @@ IUSE=""
 ESVN_REPO_URI="http://django-tagging.googlecode.com/svn/trunk/"
 ESVN_PROJECT="django-tagging-read-only"
 
+DEPEND=""
+RDEPEND=">=dev-python/django-1.0"
+
 DOCS="docs/overview.txt"
