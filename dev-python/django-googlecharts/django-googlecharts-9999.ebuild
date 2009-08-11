@@ -4,7 +4,7 @@
 
 inherit python git
 
-DESCRIPTION="Google Chart API for Django."
+DESCRIPTION="Google Chart API for Django"
 HOMEPAGE="http://github.com/jacobian/django-googlecharts"
 LICENSE="BSD"
 
