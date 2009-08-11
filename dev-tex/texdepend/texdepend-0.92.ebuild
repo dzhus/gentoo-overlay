@@ -1,9 +1,10 @@
-# Copyright 2008 Dmitry Dzhus
-# Distributed under the terms of the GNU General Public License v3
+# Copyright 1999-2009 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
 
 DESCRIPTION="Find dependencies for a LaTeX file"
 HOMEPAGE="http://www.ctan.org/tex-archive/support/texdepend/"
-LICENSE="LPPL"
+LICENSE="LPPL-1.2"
 
 SRC_URI="http://www.ctan.org/get/support/${PN}.zip"
 
