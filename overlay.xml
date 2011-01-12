@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layman>
   <overlay type="mercurial" 
-           src ="https://hgview:hgview@sphinx.net.ru/hg/gentoo-overlay/" 
+           src ="http://sphinx.net.ru/hg/gentoo-overlay/" 
            contact ="dima@sphinx.net.ru" 
            name = "dzhus">
     <description>Contains some of my ebuilds.</description>
