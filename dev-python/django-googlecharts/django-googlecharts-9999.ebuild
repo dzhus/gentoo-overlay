@@ -11,7 +11,7 @@ LICENSE="BSD"
 EGIT_REPO_URI="git://github.com/jacobian/django-googlecharts.git"
 
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="examples"
 
 DEPEND=""

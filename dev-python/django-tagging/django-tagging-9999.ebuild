@@ -9,7 +9,7 @@ HOMEPAGE="http://code.google.com/p/django-tagging/"
 LICENSE="MIT"
 
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 ESVN_REPO_URI="http://django-tagging.googlecode.com/svn/trunk/"

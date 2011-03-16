@@ -10,7 +10,7 @@ SRC_URI="http://pypi.python.org/packages/source/p/${PN}/${P}.tar.gz"
 LICENSE="BSD"
 
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="examples"
 
 DEPEND=""
