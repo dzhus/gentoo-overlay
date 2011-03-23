@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layman>
   <overlay type="mercurial" 
-           src ="http://sphinx.net.ru/hg/gentoo-overlay/" 
-           contact ="dima@sphinx.net.ru" 
+           src ="http://dzhus.org/hg/gentoo-overlay/" 
+           contact ="dima@dzhus.org" 
            name = "dzhus">
     <description>Contains some of my ebuilds.</description>
   </overlay>
