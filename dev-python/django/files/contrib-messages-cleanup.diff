@@ -1,0 +1,146 @@
+diff --git a/django/contrib/auth/context_processors.py b/django/contrib/auth/context_processors.py
+index 7750ab7..ad72cd8 100644
+--- a/django/contrib/auth/context_processors.py
++++ b/django/contrib/auth/context_processors.py
+@@ -1,5 +1,4 @@
+ from django.utils.functional import lazy, memoize, SimpleLazyObject
+-from django.contrib import messages
+ 
+ # PermWrapper and PermLookupDict proxy the permissions system into objects that
+ # the template system can understand.
+@@ -55,6 +54,5 @@ def auth(request):
+ 
+     return {
+         'user': SimpleLazyObject(get_user),
+-        'messages': messages.get_messages(request),
+         'perms':  lazy(lambda: PermWrapper(get_user()), PermWrapper)(),
+     }
+diff --git a/django/contrib/messages/api.py b/django/contrib/messages/api.py
+index 1079ae1..9880d7f 100644
+--- a/django/contrib/messages/api.py
++++ b/django/contrib/messages/api.py
+@@ -15,33 +15,24 @@ class MessageFailure(Exception):
+ 
+ def add_message(request, level, message, extra_tags='', fail_silently=False):
+     """
+-    Attempts to add a message to the request using the 'messages' app, falling
+-    back to the user's message_set if MessageMiddleware hasn't been enabled.
++    Attempts to add a message to the request using the 'messages' app.
+     """
+     if hasattr(request, '_messages'):
+         return request._messages.add(level, message, extra_tags)
+     if not fail_silently:
+-        raise MessageFailure('Without the django.contrib.messages '
+-                                'middleware, messages can only be added to '
+-                                'authenticated users.')
++        raise MessageFailure('You cannot add messages without installing '
++                    'django.contrib.messages.middleware.MessageMiddleware')
+ 
+ 
+ def get_messages(request):
+     """
+     Returns the message storage on the request if it exists, otherwise returns
+-    user.message_set.all() as the old auth context processor did.
++    an empty list.
+     """
+     if hasattr(request, '_messages'):
+         return request._messages
+-
+-    def get_user():
+-        if hasattr(request, 'user'):
+-            return request.user
+-        else:
+-            from django.contrib.auth.models import AnonymousUser
+-            return AnonymousUser()
+-
+-    return lazy(memoize(get_user().get_and_delete_messages, {}, 0), list)()
++    else:
++        return []
+ 
+ 
+ def get_level(request):
+diff --git a/django/contrib/messages/tests/base.py b/django/contrib/messages/tests/base.py
+index 932ca27..c6886a8 100644
+--- a/django/contrib/messages/tests/base.py
++++ b/django/contrib/messages/tests/base.py
+@@ -10,7 +10,6 @@ from django.contrib.messages.api import MessageFailure
+ from django.contrib.messages.storage import default_storage, base
+ from django.contrib.messages.storage.base import Message
+ from django.core.urlresolvers import reverse
+-from django.contrib.auth.models import User
+ 
+ 
+ def skipUnlessAuthIsInstalled(func):
+@@ -222,10 +221,10 @@ class BaseTest(TestCase):
+         for msg in data['messages']:
+             self.assertContains(response, msg)
+ 
+-    def test_middleware_disabled_anon_user(self):
++    def test_middleware_disabled(self):
+         """
+-        Tests that, when the middleware is disabled and a user is not logged
+-        in, an exception is raised when one attempts to store a message.
++        Tests that, when the middleware is disabled, an exception is raised
++        when one attempts to store a message.
+         """
+         settings.MESSAGE_LEVEL = constants.DEBUG
+         settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
+@@ -251,10 +250,10 @@ class BaseTest(TestCase):
+             self.assertRaises(MessageFailure, self.client.post, add_url,
+                               data, follow=True)
+ 
+-    def test_middleware_disabled_anon_user_fail_silently(self):
++    def test_middleware_disabled_fail_silently(self):
+         """
+-        Tests that, when the middleware is disabled and a user is not logged
+-        in, an exception is not raised if 'fail_silently' = True
++        Tests that, when the middleware is disabled, an exception is not
++        raised if 'fail_silently' = True
+         """
+         settings.MESSAGE_LEVEL = constants.DEBUG
+         settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
+diff --git a/docs/ref/contrib/admin/index.txt b/docs/ref/contrib/admin/index.txt
+index cd6ff31..e20a2e1 100644
+--- a/docs/ref/contrib/admin/index.txt
++++ b/docs/ref/contrib/admin/index.txt
+@@ -14,26 +14,32 @@ Django's admin interface.
+ Overview
+ ========
+ 
+-There are six steps in activating the Django admin site:
++There are seven steps in activating the Django admin site:
+ 
+     1. Add ``'django.contrib.admin'`` to your :setting:`INSTALLED_APPS`
+        setting.
+ 
+-    2. Admin has two dependencies - :mod:`django.contrib.auth` and
+-       :mod:`django.contrib.contenttypes`. If these applications are not
+-       in your :setting:`INSTALLED_APPS` list, add them.
++    2. Admin has three dependencies - :mod:`django.contrib.auth`,
++       :mod:`django.contrib.contenttypes` and :mod:`django.contrib.messages`. 
++       If these applications are not in your :setting:`INSTALLED_APPS` list,
++       add them.
+ 
+-    3. Determine which of your application's models should be editable in the
++    3. Add ``django.contrib.messages.context_processors.messages`` to
++       :setting:`TEMPLATE_CONTEXT_PROCESSORS` and
++       :class:`~django.contrib.messages.middleware.MessageMiddleware` to
++       :setting:`MIDDLEWARE_CLASSES`.
++
++    4. Determine which of your application's models should be editable in the
+        admin interface.
+ 
+-    4. For each of those models, optionally create a ``ModelAdmin`` class that
++    5. For each of those models, optionally create a ``ModelAdmin`` class that
+        encapsulates the customized admin functionality and options for that
+        particular model.
+ 
+-    5. Instantiate an ``AdminSite`` and tell it about each of your models and
++    6. Instantiate an ``AdminSite`` and tell it about each of your models and
+        ``ModelAdmin`` classes.
+ 
+-    6. Hook the ``AdminSite`` instance into your URLconf.
++    7. Hook the ``AdminSite`` instance into your URLconf.
+ 
+ Other topics
+ ------------
