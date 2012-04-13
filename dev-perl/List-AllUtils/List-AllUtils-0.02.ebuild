@@ -11,7 +11,7 @@ inherit perl-module
 DESCRIPTION="Combines List::Util and List::MoreUtils in one bite-sized package"
 
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RESTRICT="mirror"
